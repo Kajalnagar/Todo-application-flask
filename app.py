@@ -9,6 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+
 # ======================
 # TODO TABLE
 # ======================
@@ -17,7 +18,7 @@ class Todo(db.Model):
     title = db.Column(db.String(200), nullable=False)
     desc = db.Column(db.String(500), nullable=False)
     completed = db.Column(db.Boolean, default=False)
-    date_create = db.Column(db.DateTime, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 # ======================
@@ -25,7 +26,7 @@ class Todo(db.Model):
 # ======================
 class Diary(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    note = db.Column(db.Text)
+    note = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
 
@@ -45,9 +46,12 @@ def home():
         db.session.add(todo)
         db.session.commit()
 
-    allTodo = Todo.query.all()
+        return redirect("/")
 
-    return render_template("index.html", allTodo=allTodo)
+    allTodo = Todo.query.all()
+    notes = Diary.query.order_by(Diary.date_created.desc()).all()
+
+    return render_template("index.html", allTodo=allTodo, notes=notes)
 
 
 # ======================
@@ -102,27 +106,33 @@ def update(sno):
 # ======================
 # DIARY PAGE
 # ======================
-@app.route("/diary", methods=['GET','POST'])
+@app.route("/diary", methods=['POST'])
 def diary():
 
-    if request.method == "POST":
+    note = request.form['note']
 
-        note = request.form['note']
+    new_note = Diary(note=note)
 
-        new_note = Diary(note=note)
+    db.session.add(new_note)
+    db.session.commit()
 
-        db.session.add(new_note)
-        db.session.commit()
+    return redirect("/")
 
-    notes = Diary.query.order_by(Diary.date_created.desc()).all()
 
-    return render_template("diary.html", notes=notes)
-
+# ======================
+# SEARCH
+# ======================
 @app.route("/search")
 def search():
+
     keyword = request.args.get("q")
+
     results = Todo.query.filter(Todo.title.contains(keyword)).all()
-    return render_template("index.html", allTodo=results)
+    notes = Diary.query.all()
+
+    return render_template("index.html", allTodo=results, notes=notes)
+
+
 # ======================
 # LOGIN PAGE
 # ======================
