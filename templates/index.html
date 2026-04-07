@@ -18,8 +18,6 @@ background: linear-gradient(135deg,#74ebd5,#ACB6E5);
 margin:0;
 }
 
-/* Navbar */
-
 .navbar{
 background:#333;
 }
@@ -28,8 +26,6 @@ background:#333;
 color:white !important;
 font-size:18px;
 }
-
-/* Container */
 
 .container-box{
 width:70%;
@@ -40,8 +36,6 @@ padding:25px;
 border-radius:10px;
 box-shadow:0px 0px 10px gray;
 }
-
-/* Form */
 
 input,textarea{
 width:100%;
@@ -65,8 +59,6 @@ button:hover{
 background:#45a049;
 }
 
-/* Table */
-
 table{
 width:100%;
 margin-top:20px;
@@ -82,14 +74,10 @@ padding:10px;
 text-align:center;
 }
 
-/* Completed todo */
-
 .completed{
 text-decoration:line-through;
 color:gray;
 }
-
-/* Pages */
 
 .page{
 display:none;
@@ -113,7 +101,13 @@ display:block;
 
 <a class="navbar-brand" href="#">MyTodo</a>
 
-<ul class="navbar-nav">
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarNav">
+
+<ul class="navbar-nav ms-auto">
 
 <li class="nav-item">
 <a class="nav-link" href="#" onclick="showPage('home')">Home</a>
@@ -132,6 +126,8 @@ display:block;
 </li>
 
 </ul>
+
+</div>
 
 </div>
 
@@ -187,7 +183,7 @@ display:block;
 {{todo.desc}}
 </td>
 
-<td>{{todo.date_create}}</td>
+<td>{{todo.date_created}}</td>
 
 <td>
 <a href="/complete/{{todo.sno}}">
@@ -206,7 +202,6 @@ display:block;
 </table>
 
 </div>
-
 
 
 <!-- DIARY PAGE -->
@@ -233,7 +228,7 @@ display:block;
 
 <li class="list-group-item">
 
-<strong>{{note.date_create}}</strong> - {{note.note}}
+<strong>{{note.date_created}}</strong> - {{note.note}}
 
 </li>
 
@@ -242,7 +237,6 @@ display:block;
 </ul>
 
 </div>
-
 
 
 <!-- ABOUT PAGE -->
@@ -259,12 +253,10 @@ display:block;
 <li>Delete tasks</li>
 <li>Checklist when task is completed</li>
 <li>Diary for notes</li>
-<li>Simple login system</li>
 
 </ul>
 
 </div>
-
 
 
 <!-- LOGIN PAGE -->
@@ -273,11 +265,11 @@ display:block;
 
 <h2>Login</h2>
 
-<form action="/login" method="POST">
+<form>
 
-<input type="text" name="username" placeholder="Username" required>
+<input type="text" placeholder="Username">
 
-<input type="password" name="password" placeholder="Password" required>
+<input type="password" placeholder="Password">
 
 <button>Login</button>
 
@@ -285,8 +277,6 @@ display:block;
 
 </div>
 
-
-<!-- SCRIPT (Moved outside style) -->
 
 <script>
 
@@ -334,6 +324,8 @@ tr[i].style.display="none";
 }
 
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
